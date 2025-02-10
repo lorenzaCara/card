@@ -1,0 +1,249 @@
+{
+  "cards": [
+    {
+      "id": "1e5b",
+      "type": "fire",
+      "name": "",
+      "HP": "120",
+      "img": "",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "id": "24e8",
+      "type": "fire",
+      "name": "sd",
+      "HP": "",
+      "img": "",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "id": "5723",
+      "type": "colorless",
+      "name": "sddf",
+      "HP": "",
+      "img": "",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "id": "264e",
+      "type": "empty",
+      "name": "df",
+      "HP": "0",
+      "img": "",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "id": "5daf",
+      "type": "dark",
+      "name": "hsj",
+      "HP": "0",
+      "img": "",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "id": "c1e9",
+      "type": "empty",
+      "name": "dffd",
+      "HP": "0",
+      "img": "",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "id": "9bfb",
+      "type": "fire",
+      "name": "Pingu",
+      "HP": "140",
+      "img": "https://www.artribune.com/wp-content/uploads/2024/11/pingu-1.jpg",
+      "abilities": [],
+      "attacks": [],
+      "weakness": "",
+      "resistance": ""
+    },
+    {
+      "type": "fire",
+      "name": "Lorenzaaa",
+      "HP": "140",
+      "img": "",
+      "abilities": [
+        {
+          "name": "Lorenza",
+          "description": "mdmdmdmdzxzx"
+        }
+      ],
+      "attacks": [],
+      "weakness": "",
+      "resistance": "",
+      "retreat": "",
+      "id": "8df8"
+    },
+    {
+      "id": "213e",
+      "type": "fire",
+      "name": "df",
+      "HP": "0",
+      "img": "",
+      "abilities": [
+        {
+          "name": "sdsd",
+          "description": "sdsds"
+        }
+      ],
+      "attacks": [],
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    },
+    {
+      "id": "de25",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "los",
+      "abilityDescription": "los",
+      "attacks": [],
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    },
+    {
+      "id": "6dcb",
+      "type": "fire",
+      "name": "sdsd",
+      "HP": "0",
+      "img": "",
+      "abilityName": "sdsd",
+      "abilityDescription": "sdsdsd",
+      "attacks": [],
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    },
+    {
+      "type": "fire",
+      "name": "dfdf",
+      "HP": "120",
+      "img": "https://www.artribune.com/wp-content/uploads/2024/11/pingu-1.jpg",
+      "abilityName": "",
+      "abilityDescription": "asasasasa",
+      "attacks": [],
+      "weakness": "",
+      "resistance": "",
+      "retreat": "",
+      "id": "c046"
+    },
+    {
+      "id": "648e",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "",
+      "abilityDescription": "",
+      "attackName": "",
+      "attackDescription": "",
+      "attackDamage": "4",
+      "attackModifier": "x",
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    },
+    {
+      "id": "281d",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "",
+      "abilityDescription": "",
+      "attackName": "",
+      "attackDescription": "",
+      "attackDamage": "1",
+      "attackModifier": "+",
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    },
+    {
+      "id": "b9b3",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "",
+      "abilityDescription": "",
+      "attackName": "",
+      "attackDescription": "",
+      "attackDamage": "7",
+      "attackModifier": "",
+      "weakness": [],
+      "resistance": ""
+    },
+    {
+      "id": "6d05",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "",
+      "abilityDescription": "",
+      "attackName": "ASAS",
+      "attackDescription": "ASASAS",
+      "attackDamage": "0",
+      "attackModifier": "+",
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    },
+    {
+      "id": "5ccb",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "",
+      "abilityDescription": "",
+      "attackName": "",
+      "attackDescription": "",
+      "attackDamage": "0",
+      "attackModifier": "",
+      "weakness": [],
+      "resistance": ""
+    },
+    {
+      "id": "0937",
+      "type": "fire",
+      "name": "",
+      "HP": "0",
+      "img": "",
+      "abilityName": "",
+      "abilityDescription": "",
+      "attackName": "",
+      "attackDescription": "",
+      "attackDamage": "2",
+      "attackModifier": "+",
+      "modifier": "",
+      "weakness": "",
+      "resistance": "",
+      "retreat": ""
+    }
+  ]
+}
