@@ -1,50 +1,47 @@
-import { useState } from "react"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Minus, Asterisk } from "lucide-react"
-import { types } from "@/data/pokemonTypes"
-
-
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { types } from "@/data/pokemonTypes";
+import { Input } from "./ui/input";
 
 export function WeaknessInput({ formData, setFormData }) {
-  const [type, setType] = useState("")
-  const [value, setValue] = useState("")
-  const [symbol, setSymbol] = useState("")
 
-  const handleChange = (e, field) => {
-    const value = e.target.value;
-    if (field === 'type') {
-        setType(value)
-        onAdd({ type: value, value })
-    } else {
-        setValue(value)
-        onAdd({type, value: value})
-    }
-  }
+  const handleTypeSelect = (selectedType) => {
+    const choosenType = types.find((t) => t.value === selectedType);
+    const imgSrc = choosenType ? choosenType.imgSrc : "";
 
-  const handleButtonClick = (symbol) => {
-    console.log(symbol) // Stampa il simbolo cliccato nella console
-    onAdd({ symbol })
-  }
+    setFormData((prev) => ({
+      ...prev,
+      weaknesses: {
+        ...prev.weaknesses,
+        selectedType: selectedType,   
+        type: imgSrc,  
+      }
+    }));
+  };
 
+  const handleModifierClick = (modifier, e) => {
+    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      weaknesses: {
+        ...prev.weaknesses,
+        modifier: prev.attacks.modifier === modifier ? "" : modifier, 
+      },
+    }));
+  };
 
   return (
     <div className="space-y-4">
-      <Label>Debolezza</Label>
+      <Label>Weakness</Label>
       <Card className="p-4 space-y-4">
         <div>
-          <Label>Tipo</Label>
-          <Select
-            value={type}
-            onValueChange={(newType) => {
-              setType(newType)
-              handleChange()
-            }}
-          >
+          <Label>Type</Label>
+          <Select value={formData.weaknesses.selectedType || ""} onValueChange={handleTypeSelect}>
             <SelectTrigger>
-              <SelectValue placeholder="Seleziona un tipo" />
+              <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
               {types.map((energy) => (
@@ -57,21 +54,45 @@ export function WeaknessInput({ formData, setFormData }) {
         </div>
 
         <div>
-          <Label>Valore</Label>
-          <div className="flex items-center gap-2">
-            <Button type="button" variant="outline" size="icon" onClick={() => handleButtonClick("-")}>
-              <Minus className="h-4 w-4" />
+          <Label>Value</Label>
+          <div className="flex items-center gap-2 mt-2">
+            <Input
+              type="number"
+              className="w-full"
+              value={formData.weaknesses.value || ""}
+              min="0"
+              max='5'
+              onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    weaknesses: {
+                      ...prev.weaknesses,
+                      value: e.target.value,  
+                    },
+                }))
+              }
+            />
+            <Button
+              variant={formData.weaknesses.modifier === "+" ? "default" : "outline"}
+              onClick={(e) => handleModifierClick("+", e)}
+            >
+              <p className="text-lg">+</p>
             </Button>
-            <Button type="button" variant="outline" size="icon" onClick={() => handleButtonClick("*")}>
-              <Asterisk className="h-4 w-4" />
+            <Button
+              variant={formData.weaknesses.modifier === "-" ? "default" : "outline"}
+              onClick={(e) => handleModifierClick("-", e)}
+            >
+              <p className="text-lg">-</p>
             </Button>
-            <Button type="button" variant="outline" size="icon" onClick={() => handleButtonClick("+")}>
-              <Plus className="h-4 w-4" />
+            <Button
+              variant={formData.weaknesses.modifier === "x" ? "default" : "outline"}
+              onClick={(e) => handleModifierClick("x", e)}
+            >
+              <p className="text-lg">x</p>
             </Button>
           </div>
         </div>
       </Card>
     </div>
-  )
+  );
 }
-

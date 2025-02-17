@@ -7,7 +7,7 @@ export function TypeSelector({ value, onChange }) {
 
   return (
     <div>
-      <Label htmlFor="type">Tipo</Label>
+      <Label htmlFor="type">TYpe</Label>
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger className="w-full">
           <SelectValue>

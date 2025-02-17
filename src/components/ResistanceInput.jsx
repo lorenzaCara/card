@@ -1,59 +1,52 @@
-import { useState } from "react"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Plus, Minus } from "lucide-react"
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { types } from "@/data/pokemonTypes";
+import { Input } from "./ui/input";
 
-const types = ["normal", "fire", "water", "grass", "electric", "psychic", "dark", "fighting"]
+export function ResistanceInput({ formData, setFormData }) {
+  const handleTypeSelect = (selectedType) => {
+    const choosenType = types.find((t) => t.value === selectedType);
+    const imgSrc = choosenType ? choosenType.imgSrc : "";
 
-export function ResistanceInput({ onChangeResistance }) {
-  const [type, setType] = useState("")
-  const [value, setValue] = useState("0")
+    setFormData((prev) => ({
+      ...prev,
+      resistances: {
+        ...prev.resistances,
+        selectedType: selectedType,   
+        type: imgSrc,  
+      }
+    }));
+  };
 
-  const handleChange = () => {
-    if (typeof onChangeResistance === "function") {
-      onChangeResistance({ type, value })
-    }
-  }
+  const handleModifierClick = (modifier, e) => {
+    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      resistances: {
+        ...prev.resistances,
+        modifier: prev.attacks.modifier === modifier ? "" : modifier, 
+      },
+    }));
+  };
 
-  const incrementValue = () => {
-    setValue((prev) => {
-      const newValue = String(Number(prev) + 10)
-      handleChange()
-      return newValue
-    })
-  }
-
-  const decrementValue = () => {
-    setValue((prev) => {
-      const newValue = String(Math.max(0, Number(prev) - 10))
-      handleChange()
-      return newValue
-    })
-  }
 
   return (
     <div className="space-y-4">
-      <Label>Resistenza</Label>
+      <Label>Resistance</Label>
       <Card className="p-4 space-y-4">
         <div>
-          <Label>Tipo</Label>
-          <Select
-            value={type}
-            onValueChange={(newType) => {
-              setType(newType)
-              handleChange()
-            }}
-          >
+          <Label>Type</Label>
+          <Select value={formData.resistances.selectedType || ""} onValueChange={handleTypeSelect}>
             <SelectTrigger>
-              <SelectValue placeholder="Seleziona un tipo" />
+              <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              {types.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
+              {types.map((energy) => (
+                <SelectItem key={energy.value} value={energy.value}>
+                  {energy.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -61,27 +54,45 @@ export function ResistanceInput({ onChangeResistance }) {
         </div>
 
         <div>
-          <Label>Valore</Label>
-          <div className="flex items-center gap-2">
-            <Button type="button" variant="outline" size="icon" onClick={decrementValue}>
-              <Minus className="h-4 w-4" />
-            </Button>
+          <Label>Value</Label>
+          <div className="flex items-center gap-2 mt-2">
             <Input
               type="number"
-              value={value}
-              onChange={(e) => {
-                setValue(e.target.value)
-                handleChange()
-              }}
-              className="w-20 text-center"
+              className="w-full"
+              value={formData.resistances.value || ""}
+              min="0"
+              max='5'
+              onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    resistances: {
+                      ...prev.resistances,
+                      value: e.target.value,  
+                    },
+                }))
+              }
             />
-            <Button type="button" variant="outline" size="icon" onClick={incrementValue}>
-              <Plus className="h-4 w-4" />
+            <Button
+              variant={formData.resistances.modifier === "+" ? "default" : "outline"}
+              onClick={(e) => handleModifierClick("+", e)}
+            >
+              <p className="text-lg">+</p>
+            </Button>
+            <Button
+              variant={formData.resistances.modifier === "-" ? "default" : "outline"}
+              onClick={(e) => handleModifierClick("-", e)}
+            >
+              <p className="text-lg">-</p>
+            </Button>
+            <Button
+              variant={formData.resistances.modifier === "x" ? "default" : "outline"}
+              onClick={(e) => handleModifierClick("x", e)}
+            >
+              <p className="text-lg">x</p>
             </Button>
           </div>
         </div>
       </Card>
     </div>
-  )
+  );
 }
-

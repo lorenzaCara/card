@@ -1,142 +1,169 @@
-import { useState } from "react"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { Plus, X, Minus, Asterisk } from "lucide-react"
-import { types } from "@/data/pokemonTypes"
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Plus, X } from "lucide-react";
+import { types } from "@/data/pokemonTypes";
 
-/* const energyTypes = [
-  { type: "normal", icon: "⭐" },
-  { type: "fire", icon: "🔥" },
-  { type: "water", icon: "💧" },
-  { type: "grass", icon: "🌿" },
-  { type: "electric", icon: "⚡" },
-  { type: "psychic", icon: "👁" },
-  { type: "dark", icon: "🌑" },
-  { type: "fighting", icon: "👊" },
-] */
-
-export function AttackInput({ formData, setFormData, onChange, value }) {
-  const [show, setShow] = useState(false)
-  const [attackModifier, setAttackModifier] = useState("");
-  const selectedType = types.find((type) => type.value === value)
+export function AttackInput({ formData, setFormData }) {
+  const [show, setShow] = useState(false);
 
   const handleModifierClick = (modifier, e) => {
-    e.preventDefault(); // Evita il comportamento predefinito del bottone
-    setAttackModifier((prev) => (prev === modifier ? "" : modifier)); // Se è già selezionato, lo deseleziona
-    setFormData((prev) => ({ ...prev, attackModifier: prev === modifier ? "" : modifier }));
-};
+    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      attacks: {
+        ...prev.attacks,
+        modifier: prev.attacks.modifier === modifier ? "" : modifier, 
+      },
+    }));
+  };
 
-  /* const [name, setName] = useState("")
-  const [energyCost, setEnergyCost] = useState([])
-  const [damage, setDamage] = useState("0")
-  const [description, setDescription] = useState("")
-
-  const handleAdd = () => {
-    onAdd({ name, energyCost, damage, description })
-    setName("")
-    setEnergyCost([])
-    setDamage("0")
-    setDescription("")
-    setShow(false)
-  }
-
-  const handleAddEnergy = (energyType) => {
-    setEnergyCost([...energyCost, energyType])
-  }
-
-  const handleRemoveEnergy = (index) => {
-    setEnergyCost(energyCost.filter((_, i) => i !== index))
-  }
-
-  const handleAddPlus = () => {
-    setEnergyCost([...energyCost, "plus"]);
-  }
-
-  const handleAddMinus = () => {
-    setEnergyCost([...energyCost, "minus"])
-  } */
+  const handleTypeSelect = (type) => {
+    setFormData((prev) => {
+      let typesArray = prev.attacks.types || [];
+  
+      // Se il tipo è già presente, lo rimuove
+      if (typesArray.includes(type.imgSrc)) {
+        return {
+          ...prev,
+          attacks: {
+            ...prev.attacks,
+            types: typesArray.filter((t) => t !== type.imgSrc),
+          },
+        };
+      }
+  
+      if (typesArray.length >= 3) {
+        typesArray = [...typesArray.slice(1), type.imgSrc]; //per sostituire l'ultimo
+      } else {
+        typesArray = [...typesArray, type.imgSrc]; //aggiunge nuovo elemento all'array
+      }
+  
+      return {
+        ...prev,
+        attacks: {
+          ...prev.attacks,
+          types: typesArray,
+        },
+      };
+    });
+  };
+  
+  
+  const handleSymbolClick = (modifier, e) => {
+    e.preventDefault();
+    setFormData((prev) => ({
+      ...prev,
+      attacks: {
+        ...prev.attacks,
+        symbol: prev.attacks.symbol === modifier ? "" : modifier,
+      },
+    }));
+  };
 
   return (
     <div>
       <div className="flex justify-between pb-2">
-        <Label htmlFor='Attacks'>Attacks</Label>
-        <Button type="button" variant="outline" className="p-2 h-6 w-6" onClick={() => setShow(true)}>
+        <Label htmlFor="Attacks">Attacks</Label>
+        <Button
+          type="button"
+          variant="outline"
+          className="p-2 h-6 w-6"
+          onClick={() => setShow(true)}
+        >
           <Plus className="h-5 w-5" />
         </Button>
       </div>
+
       {show ? (
         <Card className="p-4 space-y-4">
           <div className="flex justify-between items-center">
-            <Label htmlFor='Name'>Nome</Label>
-            <Button type="button" variant="ghost" className="p-2 h-6 w-6" onClick={() => setShow(false)}>
+            <Label htmlFor="Name">Name</Label>
+            <Button
+              type="button"
+              variant="ghost"
+              className="p-2 h-6 w-6"
+              onClick={() => setShow(false)}
+            >
               <X className="h-5 w-5" />
             </Button>
           </div>
+
           <Input
-            type='text'
-            value={formData.attackName}
-            onChange={(e) => 
-              setFormData((prev) => ({ ...prev, attackName: e.target.value }))
+            type="text"
+            value={formData.attacks.name || ""}
+            maxLength={14}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                attacks: {
+                  ...prev.attacks,
+                  name: e.target.value,  
+                },
+              }))
             }
-            placeholder='Attacks'
+            placeholder="Name attack"
           />
-          {/* <Input
-            type='text'
-            value={formData.attackName}
-            onChange={(e) => 
-              setFormData((prev) => ({ ...prev, attackName: e.target.value }))
-            }
-            placeholder='Attacks'
-          /> */}
-        <div>
-            <Label htmlFor="damage">Danno</Label>
+
+          <div>
+            <Label htmlFor="damage">Damage</Label>
             <div className="flex items-center gap-2 mt-2">
-            <Input
-              type="number"
-              value={formData.attackDamage}
-              className="w-full"
-              min="0" // Impedisce l'inserimento di numeri negativi
-              onChange={(e) => 
-                setFormData((prev) => ({ ...prev, attackDamage: e.target.value }))
+              <Input
+                type="number"
+                value={formData.attacks.damage || ""}
+                className="w-full"
+                min="0"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    attacks: {
+                      ...prev.attacks,
+                      damage: e.target.value,  
+                    },
+                }))
               }
-            />
-            <Button
-              variant={attackModifier === "+" ? "default" : "outline"}
-              onClick={(e) => handleModifierClick("+", e)}
-            >
-              <p className="text-lg">+</p>
-            </Button>
-            <Button
-              variant={attackModifier === "-" ? "default" : "outline"}
-              onClick={(e) => handleModifierClick("-", e)}
-            >
-              <p className="text-lg">-</p>
-            </Button>
-            <Button
-              variant={attackModifier === "x" ? "default" : "outline"}
-              onClick={(e) => handleModifierClick("x", e)}
-            >
-              <p className="text-lg">x</p>
-            </Button>
-
+              />
+              <Button
+                variant={formData.attacks.modifier === "+" ? "default" : "outline"}
+                onClick={(e) => handleModifierClick("+", e)}
+              >
+                <p className="text-lg">+</p>
+              </Button>
+              <Button
+                variant={formData.attacks.modifier === "-" ? "default" : "outline"}
+                onClick={(e) => handleModifierClick("-", e)}
+              >
+                <p className="text-lg">-</p>
+              </Button>
+              <Button
+                variant={formData.attacks.modifier === "x" ? "default" : "outline"}
+                onClick={(e) => handleModifierClick("x", e)}
+              >
+                <p className="text-lg">x</p>
+              </Button>
             </div>
-        </div>
+          </div>
 
-        <Label htmlFor='Description'>Description</Label>
+          <Label htmlFor="Description">Description</Label>
           <Textarea
-            type='text'
-            value={formData.attackDescription}
-            onChange={(e) => 
-              setFormData((prev) => ({ ...prev, attackDescription: e.target.value }))
+            value={formData.attacks.description || ""}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                attacks: {
+                  ...prev.attacks,
+                  description: e.target.value,  
+                },
+              }))
             }
-            placeholder='Description...'
+            placeholder="Description attack"
           />
 
-          {/* <div>
-            <Label>Energia</Label>
+          <div>
+            <Label>Energy</Label>
             <div className="flex flex-wrap gap-2 mt-2">
               {types.map((energy) => (
                 <Button
@@ -144,57 +171,42 @@ export function AttackInput({ formData, setFormData, onChange, value }) {
                   type="button"
                   variant="outline"
                   className="p-2 h-8 w-8 rounded-full"
-                  size='icon'
-                  onClick={onChange}
+                  size="icon"
+                  onClick={() => handleTypeSelect(energy)}
                 >
                   <img src={energy.imgSrc} className="w-8" />
                 </Button>
               ))}
-                <Button 
-                    type="button"
-                    variant="outline"
-                    className="p-2 h-8 w-8 rounded-full"
-                    size='icon'
-                >
-                    <Plus />
-                </Button>
-                <Button
-                    type="button"
-                    variant="outline"
-                    className="p-2 h-8 w-8 rounded-full"
-                    size='icon'
-                >
-                    <Minus />
-                </Button>
+              <Button
+                variant={formData.attacks.symbol === "+" ? "default" : "outline"}
+                onClick={(e) => handleSymbolClick("+", e)}
+                className="p-2 h-8 w-8 rounded-full"
+                size="icon"
+              >
+                <p className="text-lg">+</p>
+              </Button>
+              <Button
+                variant={formData.attacks.symbol === "-" ? "default" : "outline"}
+                onClick={(e) => handleSymbolClick("-", e)}
+                className="p-2 h-8 w-8 rounded-full"
+                size="icon"
+              >
+                <p className="text-lg">-</p>
+              </Button>
+              <Button
+                variant={formData.attacks.symbol === "x" ? "default" : "outline"}
+                onClick={(e) => handleSymbolClick("x", e)}
+                className="p-2 h-8 w-8 rounded-full"
+                size="icon"
+              >
+                <p className="text-lg">x</p>
+              </Button>
             </div>
           </div>
 
-          {selectedType.length > 0 && (
-            <div>
-              <Label>Costo:</Label>
-              <div className="flex gap-2 mt-2">
-                {types.map((energy, index) => (
-                  <div key={index} className="relative">
-                    <Button variant="outline" className="p-2 h-8 w-8 rounded-full">
-                      <img src={types.find((e) => e.type === energy)?.imgSrc} alt={energy} className="w-8"/>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="absolute -top-2 -right-2 h-4 w-4 rounded-full p-0"
-                      onClick={() => handleRemoveEnergy(index)}
-                    >
-                      <X className="h-3 w-3" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )} */}
-
-
-          <Button className="w-full">
-            + Add attack
-          </Button>
+          {/* <Button className="w-full">
+            + Aggiungi attacco
+          </Button> */}
         </Card>
       ) : (
         <Card className="p-4 text-center text-sm text-muted-foreground">
@@ -202,6 +214,5 @@ export function AttackInput({ formData, setFormData, onChange, value }) {
         </Card>
       )}
     </div>
-  )
+  );
 }
-
